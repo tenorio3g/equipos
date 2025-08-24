@@ -1,29 +1,52 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  margin: 20px;
+  margin: 10px;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.buscador {
+  margin-bottom: 15px;
+}
+
+#busqueda {
+  padding: 8px;
+  width: 200px;
+  max-width: 60%;
+}
+
+button {
+  padding: 8px 12px;
+  margin-left: 5px;
+  cursor: pointer;
 }
 
 #mapa {
   position: relative;
   display: inline-block;
   border: 2px solid #333;
+  max-width: 95vw;
 }
 
 #imagenMapa {
-  max-width: 90vw;
+  width: 100%;
   height: auto;
+  display: block;
 }
 
 .equipo {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background: red;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  box-shadow: 0 0 5px black;
+  box-shadow: 0 0 4px black;
 }
 
 /* Efecto parpadeo */
@@ -32,7 +55,25 @@ body {
 }
 
 @keyframes blink {
-  50% {
-    opacity: 0;
-  }
+  50% { opacity: 0; }
+}
+
+/* Popup de información */
+.popup {
+  position: absolute;
+  background: white;
+  border: 1px solid #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  display: none;
+  z-index: 10;
+}
+
+.popup button {
+  margin-top: 5px;
+  padding: 5px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
 }

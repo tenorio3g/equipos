@@ -25,11 +25,18 @@ button {
   cursor: pointer;
 }
 
+/* Contenedor con zoom */
+.contenedor-mapa {
+  position: relative;
+  display: inline-block;
+}
+
 #mapa {
   position: relative;
   display: inline-block;
   border: 2px solid #333;
   max-width: 95vw;
+  transform-origin: center center;
 }
 
 #imagenMapa {
@@ -61,14 +68,24 @@ button {
 /* Popup de información */
 .popup {
   position: absolute;
-  background: white;
-  border: 1px solid #333;
+  background: rgba(255,255,255,0.95);
+  border: 2px solid #333;
   padding: 8px 12px;
   border-radius: 6px;
   font-size: 0.9rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   display: none;
   z-index: 10;
+  min-width: 120px;
+  text-align: left;
+}
+
+.cerrar {
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+  color: darkred;
+  margin-left: 10px;
 }
 
 .popup button {
@@ -76,4 +93,37 @@ button {
   padding: 5px 8px;
   font-size: 0.8rem;
   cursor: pointer;
+}
+
+/* Controles de zoom */
+.controles-zoom {
+  position: absolute;
+  top: 10px;
+  right: -50px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.controles-zoom button {
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid #333;
+  background: #f0f0f0;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1rem;
+  }
+  #busqueda {
+    width: 150px;
+  }
+  .equipo {
+    width: 15px;
+    height: 15px;
+  }
 }

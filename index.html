@@ -15,17 +15,28 @@
     <button onclick="buscarEquipo()">Buscar</button>
   </div>
 
-  <!-- Contenedor del mapa -->
-  <div id="mapa">
-    <img src="mapa.jpg" alt="Mapa de referencia" id="imagenMapa">
+  <!-- Contenedor con controles de zoom -->
+  <div class="contenedor-mapa">
+    <div id="mapa">
+      <img src="mapa.jpg" alt="Mapa de referencia" id="imagenMapa">
 
-    <!-- Puntos de equipos -->
-    <div class="equipo" id="aire1" style="top: 30%; left: 40%;" data-nombre="Aire Acondicionado 1"></div>
-    <div class="equipo" id="aire2" style="top: 60%; left: 70%;" data-nombre="Aire Acondicionado 2"></div>
+      <!-- Puntos de equipos -->
+      <div class="equipo" id="aire1" style="top: 30%; left: 40%;" data-nombre="Aire Acondicionado 1"></div>
+      <div class="equipo" id="aire2" style="top: 60%; left: 70%;" data-nombre="Aire Acondicionado 2"></div>
+    </div>
+
+    <!-- Botones de zoom -->
+    <div class="controles-zoom">
+      <button onclick="zoomMapa(1.2)">➕</button>
+      <button onclick="zoomMapa(0.8)">➖</button>
+    </div>
   </div>
 
   <!-- Popup flotante -->
-  <div id="popup" class="popup"></div>
+  <div id="popup" class="popup">
+    <span id="cerrarPopup" class="cerrar">✖</span>
+    <div id="contenidoPopup"></div>
+  </div>
 
   <script src="app.js"></script>
 </body>

@@ -9,27 +9,26 @@
 <body>
   <h2>Mapa de Localización de Equipos</h2>
 
-  <!-- Barra de búsqueda -->
-  <div class="buscador">
+  <!-- Buscador flotante -->
+  <div class="buscador-flotante">
     <input type="text" id="busqueda" placeholder="Buscar equipo...">
     <button onclick="buscarEquipo()">Buscar</button>
   </div>
 
-  <!-- Contenedor con controles de zoom -->
+  <!-- Contenedor del mapa -->
   <div class="contenedor-mapa">
     <div id="mapa">
       <img src="mapa.jpg" alt="Mapa de referencia" id="imagenMapa">
-
       <!-- Puntos de equipos -->
       <div class="equipo" id="aire1" style="top: 30%; left: 40%;" data-nombre="Aire Acondicionado 1"></div>
       <div class="equipo" id="aire2" style="top: 60%; left: 70%;" data-nombre="Aire Acondicionado 2"></div>
     </div>
+  </div>
 
-    <!-- Botones de zoom -->
-    <div class="controles-zoom">
-      <button onclick="zoomMapa(1.2)">➕</button>
-      <button onclick="zoomMapa(0.8)">➖</button>
-    </div>
+  <!-- Botones de zoom flotantes -->
+  <div class="controles-zoom-flotante">
+    <button onclick="zoomMapa(1.2)">➕</button>
+    <button onclick="zoomMapa(0.8)">➖</button>
   </div>
 
   <!-- Popup flotante -->

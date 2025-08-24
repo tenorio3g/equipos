@@ -1,39 +1,47 @@
 body {
   font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 10px;
+  margin: 0;
+  padding: 10px;
 }
 
 h2 {
+  text-align: center;
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
-.buscador {
-  margin-bottom: 15px;
-}
-
-#busqueda {
+/* Buscador flotante */
+.buscador-flotante {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: rgba(255,255,255,0.9);
   padding: 8px;
-  width: 200px;
-  max-width: 60%;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 20;
 }
 
-button {
-  padding: 8px 12px;
+.buscador-flotante input {
+  padding: 6px;
+  width: 150px;
+}
+
+.buscador-flotante button {
+  padding: 6px 10px;
   margin-left: 5px;
   cursor: pointer;
 }
 
-/* Contenedor con zoom */
+/* Contenedor mapa */
 .contenedor-mapa {
-  position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
 
 #mapa {
   position: relative;
-  display: inline-block;
   border: 2px solid #333;
   max-width: 95vw;
   transform-origin: center center;
@@ -56,7 +64,6 @@ button {
   box-shadow: 0 0 4px black;
 }
 
-/* Efecto parpadeo */
 .parpadeo {
   animation: blink 1s infinite;
 }
@@ -65,7 +72,28 @@ button {
   50% { opacity: 0; }
 }
 
-/* Popup de información */
+/* Controles zoom flotantes */
+.controles-zoom-flotante {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 20;
+}
+
+.controles-zoom-flotante button {
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid #333;
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+}
+
+/* Popup flotante */
 .popup {
   position: absolute;
   background: rgba(255,255,255,0.95);
@@ -75,7 +103,7 @@ button {
   font-size: 0.9rem;
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   display: none;
-  z-index: 10;
+  z-index: 15;
   min-width: 120px;
   text-align: left;
 }
@@ -93,37 +121,4 @@ button {
   padding: 5px 8px;
   font-size: 0.8rem;
   cursor: pointer;
-}
-
-/* Controles de zoom */
-.controles-zoom {
-  position: absolute;
-  top: 10px;
-  right: -50px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.controles-zoom button {
-  width: 40px;
-  height: 40px;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  border: 1px solid #333;
-  background: #f0f0f0;
-}
-
-/* Responsivo */
-@media (max-width: 600px) {
-  h2 {
-    font-size: 1rem;
-  }
-  #busqueda {
-    width: 150px;
-  }
-  .equipo {
-    width: 15px;
-    height: 15px;
-  }
 }

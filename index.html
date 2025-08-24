@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa de Equipos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Mapa de Localización de Equipos</h2>
+
+  <!-- Barra de búsqueda -->
+  <input type="text" id="busqueda" placeholder="Buscar equipo...">
+  <button onclick="buscarEquipo()">Buscar</button>
+
+  <!-- Contenedor del mapa -->
+  <div id="mapa">
+    <img src="mapa.jpg" alt="Mapa de referencia" id="imagenMapa">
+
+    <!-- Puntos de equipos -->
+    <div class="equipo" id="aire1" style="top: 30%; left: 40%;" title="Aire 1"></div>
+    <div class="equipo" id="aire2" style="top: 60%; left: 70%;" title="Aire 2"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

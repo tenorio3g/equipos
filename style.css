@@ -1,130 +1,127 @@
-/* Básicos */
-body { font-family: Arial, sans-serif; margin: 0; padding: 10px; }
-h2 { text-align: center; font-size: 1.2rem; margin-bottom: 10px; }
-
-/* Contenedor mapa */
-.contenedor-mapa {
-  display: flex;
-  justify-content: center;
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
 }
+
+.contenedor-mapa {
+  position: relative;
+  display: inline-block;
+}
+
 #mapa {
   position: relative;
-  border: 2px solid #333;
-  transform-origin: center center;
-  width: auto;
-  max-width: 95vw;
-  height: 95vh; /* Altura adaptable a pantalla */
+  display: inline-block;
 }
-#imagenMapa {
-  width: auto;
-  height: 100%;
+
+#mapa img {
+  max-width: 100%;
   display: block;
 }
 
-/* Puntos */
 .punto {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
   cursor: pointer;
-  box-shadow: 0 0 4px black;
+  border: 2px solid white;
 }
-.parpadeo { animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0; } }
 
 /* Colores por categoría */
 .punto.aires { background: blue; }
 .punto.tableros { background: red; }
-.punto.encontrado { background: orange; } /* resaltar búsqueda */
+.punto.default { background: gray; }
 
-/* Filtro flotante */
-.filtro-categorias {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 25;
-  background: rgba(255,255,255,0.9);
-  padding: 5px 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+/* Parpadeo especial en búsqueda */
+.parpadeo {
+  animation: parpadeo 1s infinite alternate;
 }
-
-/* Buscador flotante */
-.buscador-flotante {
-  position: fixed;
-  top: 60px;
-  left: 10px;
-  background: rgba(255,255,255,0.9);
-  padding: 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  z-index: 20;
-}
-.buscador-flotante input { padding: 6px; width: 150px; }
-.buscador-flotante button { padding: 6px 10px; margin-left: 5px; cursor: pointer; }
-
-/* Botón gestión de equipos */
-#btnEquipos {
-  position: fixed;
-  top: 110px;
-  left: 10px;
-  padding: 6px 10px;
-  background: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  z-index: 20;
-}
-
-/* Coordenadas flotantes */
-#coordenadas {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.9rem;
-  color: #333;
-  background: rgba(255,255,255,0.8);
-  padding: 4px 8px;
-  border-radius: 5px;
-  z-index: 20;
-}
-
-/* Zoom flotante */
-.controles-zoom-flotante {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  z-index: 20;
-}
-.controles-zoom-flotante button {
-  width: 40px; height: 40px;
-  font-size: 1.2rem;
-  border-radius: 5px;
-  border: 1px solid #333;
-  background: rgba(255,255,255,0.9);
-  cursor: pointer;
+@keyframes parpadeo {
+  from { background: lime; }
+  to { background: orange; }
 }
 
 /* Popup */
 .popup {
   position: absolute;
-  background: rgba(255,255,255,0.95);
-  border: 2px solid #333;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  background: white;
+  border: 1px solid #666;
+  padding: 8px;
   display: none;
-  z-index: 15;
-  min-width: 120px;
-  text-align: left;
+  z-index: 10;
 }
-.cerrar { float: right; cursor: pointer; font-weight: bold; color: darkred; margin-left: 10px; }
-.popup button { margin-top: 5px; padding: 5px 8px; font-size: 0.8rem; cursor: pointer; }
+.cerrar {
+  cursor: pointer;
+  float: right;
+  font-size: 14px;
+}
+
+/* Buscador flotante */
+.buscador-flotante {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Zoom flotante */
+.controles-zoom-flotante {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+.controles-zoom-flotante button {
+  display: block;
+  margin: 3px 0;
+  padding: 5px 10px;
+}
+
+/* Coordenadas */
+#coordenadas {
+  position: fixed;
+  bottom: 10px;
+  right: 50%;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  z-index: 1000;
+}
+/* Selector flotante de categoría */
+#filtroCategoria {
+  position: fixed;
+  top: 0px;
+  left: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Botón equipos flotante */
+#btnEquipos {
+  position: fixed;
+  bottom: 30px;
+  left: 10px;
+  background: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+#btnEquipos:hover {
+  background: #0056b3;
+}

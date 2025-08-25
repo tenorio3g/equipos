@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mapa de Equipos</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa de Equipos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Mapa de Localización de Equipos</h2>
+  <h2>Mapa de Localización de Equipos</h2>
 
-<!-- Filtro de capas -->
-<div class="filtro-categorias">
-  <select id="filtroCategoria" onchange="cambiarCategoria(this.value)">
-    <option value="todos">Mostrar todos</option>
-    <option value="aires">Aires acondicionados</option>
-    <option value="tableros">Tableros eléctricos</option>
-  </select>
-</div>
-
-<!-- Contenedor del mapa -->
-<div class="contenedor-mapa">
-  <div id="mapa">
-    <img src="mapa.jpg" alt="Mapa de referencia" id="imagenMapa">
+  <!-- Filtro de capas -->
+  <div class="filtro-categorias">
+    <select id="filtroCategoria" onchange="cambiarCategoria(this.value)">
+      <option value="todos">Mostrar todos</option>
+      <option value="aires">Aires acondicionados</option>
+      <option value="tableros">Tableros eléctricos</option>
+    </select>
   </div>
-</div>
 
-<!-- Coordenadas -->
-<div id="coordenadas">X: 0%, Y: 0%</div>
+  <!-- Contenedor del mapa -->
+  <div class="contenedor-mapa">
+    <div id="mapa">
+      <img src="mapa.jpg" alt="Mapa de referencia" id="imagenMapa">
+    </div>
+  </div>
 
-<!-- Buscador flotante -->
-<div class="buscador-flotante">
-  <input type="text" id="busqueda" placeholder="Buscar equipo...">
-  <button onclick="buscarEquipo()">Buscar</button>
-</div>
+  <!-- Coordenadas -->
+  <div id="coordenadas">X: 0%, Y: 0%</div>
 
-<!-- Botón gestión de equipos -->
-<button id="btnEquipos" onclick="window.open('equipos.html','_blank')">⚙️ Equipos</button>
+  <!-- Buscador flotante -->
+  <div class="buscador-flotante">
+    <input type="text" id="busqueda" placeholder="Buscar equipo...">
+    <button onclick="buscarEquipo()">Buscar</button>
+  </div>
 
-<!-- Botones de zoom -->
-<div class="controles-zoom-flotante">
-  <button onclick="zoomMapa(1.2)">➕</button>
-  <button onclick="zoomMapa(0.8)">➖</button>
-</div>
+  <!-- Botón gestión de equipos -->
+  <button id="btnEquipos" onclick="window.open('equipos.html','_blank')">
+    ⚙️ Equipos
+  </button>
 
-<!-- Popup -->
-<div id="popup" class="popup">
-  <span id="cerrarPopup" class="cerrar">✖</span>
-  <div id="contenidoPopup"></div>
-</div>
+  <!-- Botones de zoom -->
+  <div class="controles-zoom-flotante">
+    <button onclick="zoomMapa(1.2)">➕</button>
+    <button onclick="zoomMapa(0.8)">➖</button>
+  </div>
 
-<!-- Firebase + lógica -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="app.js"></script>
+  <!-- Popup -->
+  <div id="popup" class="popup">
+    <span id="cerrarPopup" class="cerrar">✖</span>
+    <div id="contenidoPopup"></div>
+  </div>
+
+  <!-- Firebase + lógica -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="app.js"></script>
 
 </body>
 </html>

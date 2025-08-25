@@ -18,4 +18,25 @@
   <p><strong>Último mantenimiento:</strong> Julio 2024</p>
   <a href="index.html">🔙 Volver al mapa</a>
 </body>
+<h2>Editar Aire1</h2>
+<label>Top (%)</label>
+<input type="number" id="topCoord">
+<label>Left (%)</label>
+<input type="number" id="leftCoord">
+<button onclick="guardar()">Guardar</button>
+
+<script>
+const nombre = "aire1";
+const data = JSON.parse(localStorage.getItem(nombre) || '{}');
+document.getElementById("topCoord").value = data.top || 0;
+document.getElementById("leftCoord").value = data.left || 0;
+
+function guardar() {
+  const top = document.getElementById("topCoord").value;
+  const left = document.getElementById("leftCoord").value;
+  localStorage.setItem(nombre, JSON.stringify({top, left}));
+  alert("Coordenadas guardadas");
+}
+</script>
+
 </html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Equipos</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; vertical-align: middle; }
+    th { background: #f0f0f0; }
+    button { margin: 2px; padding: 5px 10px; cursor: pointer; border: none; border-radius: 4px; }
+    .editar { background: orange; color: white; }
+    .eliminar { background: red; color: white; }
+    .guardar { background: green; color: white; }
+
+    /* Mini mapa */
+    .mini-mapa {
+      position: relative;
+      width: 150px;
+      height: 100px;
+      background-image: url("mapa.jpg"); /* tu imagen de mapa */
+      background-size: cover;
+      border: 1px solid #999;
+      border-radius: 4px;
+    }
+    .mini-punto {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: blue;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <h2>Gestión de Equipos</h2>
+
+  <!-- Formulario de alta -->
+  <form id="formEquipo">
+    <input type="hidden" id="idEquipo"> <!-- Para edición -->
+    <input type="text" id="nombre" placeholder="Nombre del equipo" required>
+    <input type="number" id="x" step="0.1" placeholder="X (%)" required>
+    <input type="number" id="y" step="0.1" placeholder="Y (%)" required>
+    <select id="categoria">
+      <option value="aires">Aires acondicionados</option>
+      <option value="tableros">Tableros eléctricos</option>
+    </select>
+    <button type="submit" class="guardar">Guardar</button>
+  </form>
+
+  <!-- Tabla de equipos -->
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Categoría</th>
+        <th>Vista previa</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaEquipos"></tbody>
+  </table>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBW_fvQaubSplkMGGlrSWcszpBsnxML_iA",
+      authDomain: "equipos-beaf1.firebaseapp.com",
+      projectId: "equipos-beaf1",
+      storageBucket: "equipos-beaf1.appspot.com",
+      messagingSenderId: "190150028300",
+      appId: "1:190150028300:web:df3a8d191a884e4974d229"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const form = document.getElementById("formEquipo");
+    const tabla = document.getElementById("tablaEquipos");
+
+    // Guardar o editar equipo
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const id = document.getElementById("idEquipo").value;
+      const equipo = {
+        nombre: document.getElementById("nombre").value,
+        x: parseFloat(document.getElementById("x").value),
+        y: parseFloat(document.getElementById("y").value),
+        categoria: document.getElementById("categoria").value
+      };
+
+      if (id) {
+        db.collection("equipos").doc(id).update(equipo).then(() => {
+          alert("Equipo actualizado ✅");
+          form.reset();
+          document.getElementById("idEquipo").value = "";
+        });
+      } else {
+        db.collection("equipos").add(equipo).then(() => {
+          alert("Equipo agregado ✅");
+          form.reset();
+        });
+      }
+    });
+
+    // Listar en tiempo real
+    db.collection("equipos").onSnapshot(snapshot => {
+      tabla.innerHTML = "";
+      snapshot.forEach(doc => {
+        const e = doc.data();
+        const fila = document.createElement("tr");
+
+        // Colores según categoría
+        let color = e.categoria === "aires" ? "blue" : "red";
+
+        fila.innerHTML = `
+          <td>${e.nombre}</td>
+          <td>${e.x}%</td>
+          <td>${e.y}%</td>
+          <td>${e.categoria}</td>
+          <td>
+            <div class="mini-mapa">
+              <div class="mini-punto" style="left:${e.x}%; top:${e.y}%; background:${color}"></div>
+            </div>
+          </td>
+          <td>
+            <button class="editar" onclick="editarEquipo('${doc.id}', '${e.nombre}', '${e.x}', '${e.y}', '${e.categoria}')">Editar</button>
+            <button class="eliminar" onclick="eliminarEquipo('${doc.id}')">Eliminar</button>
+          </td>
+        `;
+        tabla.appendChild(fila);
+      });
+    });
+
+    // Editar
+    function editarEquipo(id, nombre, x, y, categoria) {
+      document.getElementById("idEquipo").value = id;
+      document.getElementById("nombre").value = nombre;
+      document.getElementById("x").value = x;
+      document.getElementById("y").value = y;
+      document.getElementById("categoria").value = categoria;
+    }
+
+    // Eliminar
+    function eliminarEquipo(id) {
+      if (confirm("¿Seguro que deseas eliminar este equipo?")) {
+        db.collection("equipos").doc(id).delete().then(() => {
+          alert("Equipo eliminado 🗑️");
+        });
+      }
+    }
+  </script>
+</body>
+</html>

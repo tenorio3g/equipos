@@ -1,125 +1,106 @@
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBW_fvQaubSplkMGGlrSWcszpBsnxML_iA",
+  authDomain: "equipos-beaf1.firebaseapp.com",
+  projectId: "equipos-beaf1",
+  storageBucket: "equipos-beaf1.appspot.com",
+  messagingSenderId: "190150028300",
+  appId: "1:190150028300:web:df3a8d191a884e4974d229"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const mapa = document.getElementById("mapa");
+const popup = document.getElementById("popup");
+const contenidoPopup = document.getElementById("contenidoPopup");
 let escalaMapa = 1;
-let mapa = document.getElementById("mapa");
+let filtroCategoria = "todos";
 
-// Variables para arrastrar
-let arrastrando = false;
-let inicioX, inicioY;
-let desplazamientoX = 0;
-let desplazamientoY = 0;
-
-// Variables touch pinch
-let pinchDist = 0;
-let escalaInicial = 1;
-
-// --- Función de actualizar transform ---
-function actualizarTransform() {
-  mapa.style.transform = `scale(${escalaMapa}) translate(${desplazamientoX}px, ${desplazamientoY}px)`;
-}
-
-// --- Arrastrar con mouse ---
-mapa.addEventListener("mousedown", e => {
-  arrastrando = true;
-  inicioX = e.clientX - desplazamientoX;
-  inicioY = e.clientY - desplazamientoY;
-  mapa.style.cursor = "grabbing";
+// Escuchar cambios en equipos
+db.collection("equipos").onSnapshot(snapshot => {
+  renderPuntos(snapshot);
 });
 
-document.addEventListener("mousemove", e => {
-  if (!arrastrando) return;
-  desplazamientoX = e.clientX - inicioX;
-  desplazamientoY = e.clientY - inicioY;
-  actualizarTransform();
-});
+function renderPuntos(snapshot) {
+  mapa.querySelectorAll('.punto').forEach(p => p.remove());
 
-document.addEventListener("mouseup", e => {
-  if (arrastrando) {
-    arrastrando = false;
-    mapa.style.cursor = "grab";
-  }
-});
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    if (filtroCategoria !== "todos" && data.categoria !== filtroCategoria) return;
 
-// --- Arrastrar con touch ---
-mapa.addEventListener("touchstart", e => {
-  if (e.touches.length === 1) {
-    inicioX = e.touches[0].clientX - desplazamientoX;
-    inicioY = e.touches[0].clientY - desplazamientoY;
-  } else if (e.touches.length === 2) {
-    pinchDist = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
-    escalaInicial = escalaMapa;
-  }
-});
-
-mapa.addEventListener("touchmove", e => {
-  e.preventDefault();
-  if (e.touches.length === 1) {
-    desplazamientoX = e.touches[0].clientX - inicioX;
-    desplazamientoY = e.touches[0].clientY - inicioY;
-    actualizarTransform();
-  } else if (e.touches.length === 2) {
-    let nuevaDist = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
-    escalaMapa = escalaInicial * (nuevaDist / pinchDist);
-    actualizarTransform();
-  }
-}, { passive: false });
-
-// --- Buscar equipo, popup y zoom botones ---
-function buscarEquipo() {
-  const texto = document.getElementById("busqueda").value.toLowerCase().trim();
-  const equipos = document.querySelectorAll(".equipo");
-  const popup = document.getElementById("popup");
-  const contenido = document.getElementById("contenidoPopup");
-
-  let encontrado = false;
-  popup.style.display = "none";
-
-  equipos.forEach(equipo => {
-    equipo.classList.remove("parpadeo");
-
-    if (equipo.id.toLowerCase() === texto) {
-      equipo.classList.add("parpadeo");
-      encontrado = true;
-
-      const rect = equipo.getBoundingClientRect();
-      const mapaRect = mapa.getBoundingClientRect();
-
-      contenido.innerHTML = `
-        <strong>${equipo.getAttribute("data-nombre")}</strong><br>
-        <button onclick="verMas('${equipo.id}')">Ver más</button>
-      `;
-      popup.style.display = "block";
-      popup.style.left = (rect.left - mapaRect.left + rect.width/2) + "px";
-      popup.style.top = (rect.top - mapaRect.top - 40) + "px";
-
-      equipo.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
-    }
+    const punto = document.createElement("div");
+    punto.className = "punto " + (data.categoria || "default");
+    punto.style.left = data.x + "%";
+    punto.style.top = data.y + "%";
+    punto.title = data.nombre;
+    punto.onclick = () => abrirPopup(punto, doc.id, data.nombre);
+    mapa.appendChild(punto);
   });
-
-  if (!encontrado && texto !== "") {
-    alert("Equipo no encontrado");
-  }
 }
 
-// Cerrar popup
+// Abrir popup
+function abrirPopup(elemento, id, nombre) {
+  contenidoPopup.innerHTML = `<strong>${nombre}</strong><br>
+                              <button onclick="verMas('${id}')">Ver más</button>`;
+  popup.style.display = "block";
+  const rect = elemento.getBoundingClientRect();
+  const mapaRect = mapa.getBoundingClientRect();
+  popup.style.left = (rect.left - mapaRect.left + rect.width/2) + "px";
+  popup.style.top = (rect.top - mapaRect.top - 40) + "px";
+}
 document.getElementById("cerrarPopup").addEventListener("click", () => {
-  document.getElementById("popup").style.display = "none";
+  popup.style.display = "none";
 });
 
 // Ver más
-function verMas(equipoId) {
-  window.location.href = equipoId + ".html";
+function verMas(id) {
+  window.location.href = id + ".html";
 }
 
-// Zoom con botones
+// Buscar equipo
+function buscarEquipo() {
+  const texto = document.getElementById("busqueda").value.toLowerCase().trim();
+  let encontrado = false;
+  mapa.querySelectorAll(".punto").forEach(p => p.classList.remove("parpadeo"));
+  
+  mapa.querySelectorAll(".punto").forEach(p => {
+    if (p.title.toLowerCase() === texto) {
+      p.classList.add("parpadeo");
+      encontrado = true;
+      // Calcular centro del punto
+      const rectMapa = mapa.getBoundingClientRect();
+      const rectPunto = p.getBoundingClientRect();
+      const offsetX = ((rectPunto.left + rectPunto.width/2) - rectMapa.left) / rectMapa.width * 100;
+      const offsetY = ((rectPunto.top + rectPunto.height/2) - rectMapa.top) / rectMapa.height * 100;
+
+      // Cambiar origen de zoom al punto buscado
+      mapa.style.transformOrigin = `${offsetX}% ${offsetY}%`;
+
+      // Forzar pequeño zoom in/out para centrar visualmente
+      mapa.style.transform = `scale(${escalaMapa})`;
+    }
+  });
+
+  if (!encontrado && texto !== "") alert("Equipo no encontrado");
+}
+
+// Zoom
 function zoomMapa(factor) {
   escalaMapa *= factor;
-  actualizarTransform();
+  mapa.style.transform = `scale(${escalaMapa})`;
 }
 
-// Cursor inicial
-mapa.style.cursor = "grab";
+// Filtro de categoría
+function cambiarCategoria(cat) {
+  filtroCategoria = cat;
+  db.collection("equipos").get().then(renderPuntos);
+}
+
+// Mostrar coordenadas
+const coordBox = document.getElementById("coordenadas");
+mapa.addEventListener("mousemove", e => {
+  const rect = mapa.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+  const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+  coordBox.textContent = `X: ${x}%, Y: ${y}%`;
+});

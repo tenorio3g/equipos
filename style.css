@@ -126,12 +126,8 @@ body {
   background: #0056b3;
 }
 
-@media (max-width: 768px) {
-  #mapa {
-    height: 100vh; /* altura completa de pantalla */
-  }
-  #mapa img {
-    height: 100%;
-    width: auto; /* mantiene proporción */
-  }
+#mapa img {
+  width: 100%;
+  height: auto; /* mantiene proporción */
+  display: block;
 }

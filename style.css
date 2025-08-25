@@ -94,7 +94,7 @@ body {
 /* Selector flotante de categoría */
 #filtroCategoria {
   position: fixed;
-  top: 0px;
+  top: 40px;
   left: 10px;
   padding: 6px 10px;
   border-radius: 6px;
@@ -124,4 +124,14 @@ body {
 
 #btnEquipos:hover {
   background: #0056b3;
+}
+
+@media (max-width: 768px) {
+  #mapa {
+    height: 100vh; /* altura completa de pantalla */
+  }
+  #mapa img {
+    height: 100%;
+    width: auto; /* mantiene proporción */
+  }
 }

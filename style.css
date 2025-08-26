@@ -12,10 +12,11 @@ h2 {
 }
 
 /* ====== Contenedor del mapa ====== */
+/* ====== Contenedor del mapa ====== */
 .contenedor-mapa {
   position: relative;
   width: 100%;
-  height: 80vh; /* en escritorio */
+  height: 80vh; /* escritorio */
   overflow: hidden;
   background: #ddd;
 }
@@ -28,10 +29,11 @@ h2 {
 }
 
 #mapa img {
-  width: 100%;
-  height: auto;
   display: block;
-  object-fit: contain; /* mantiene proporción */
+  max-width: none;   /* evita que se limite al contenedor */
+  max-height: none;  /* evita que se recorte */
+  width: auto;
+  height: auto;
 }
 
 /* ====== Puntos en el mapa ====== */
@@ -143,12 +145,11 @@ h2 {
 /* ====== Responsive ====== */
 @media (max-width: 768px) {
   .contenedor-mapa {
-    height: 100vh; /* mapa ocupa pantalla completa */
+    height: 100vh; /* el mapa ocupa toda la pantalla */
   }
 
   #mapa img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* respeta proporción */
+    width: auto;
+    height: 100vh; /* la imagen cubre la altura del móvil */
   }
 }

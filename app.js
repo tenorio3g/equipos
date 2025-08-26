@@ -46,7 +46,7 @@ function abrirPopup(elemento, id, nombre) {
   const rect = elemento.getBoundingClientRect();
   const mapaRect = mapa.getBoundingClientRect();
   popup.style.left = (rect.left - mapaRect.left + rect.width/2) + "px";
-  popup.style.top = (rect.top - mapaRect.top - 40) + "px";
+  popup.style.top = (rect.top - mapaRect.top - 20) + "px";
 }
 document.getElementById("cerrarPopup").addEventListener("click", () => {
   popup.style.display = "none";

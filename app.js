@@ -41,12 +41,13 @@ function renderPuntos(snapshot) {
 // Abrir popup
 function abrirPopup(elemento, id, nombre) {
   contenidoPopup.innerHTML = `<strong>${nombre}</strong><br>
+                              <br>Hola</br>
                               <button onclick="verMas('${nombre}')">Ver más</button>`;
   popup.style.display = "block";
   const rect = elemento.getBoundingClientRect();
   const mapaRect = mapa.getBoundingClientRect();
   popup.style.left = (rect.left - mapaRect.left + rect.width/2) + "px";
-  popup.style.top = (rect.top - mapaRect.top - 20) + "px";
+  popup.style.top = (rect.top - mapaRect.top - 5) + "px";
 }
 document.getElementById("cerrarPopup").addEventListener("click", () => {
   popup.style.display = "none";

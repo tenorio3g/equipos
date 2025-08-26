@@ -41,7 +41,7 @@ function renderPuntos(snapshot) {
 // Abrir popup
 function abrirPopup(elemento, id, nombre) {
   contenidoPopup.innerHTML = `<strong>${nombre}</strong><br>
-                              <button onclick="verMas('${id}')">Ver más</button>`;
+                              <button onclick="verMas('${nombre}')">Ver más</button>`;
   popup.style.display = "block";
   const rect = elemento.getBoundingClientRect();
   const mapaRect = mapa.getBoundingClientRect();
@@ -53,8 +53,8 @@ document.getElementById("cerrarPopup").addEventListener("click", () => {
 });
 
 // Ver más
-function verMas(id) {
-  window.location.href = id + ".html";
+function verMas(nombre) {
+  window.location.href = nombre + ".html";
 }
 
 // Buscar equipo
